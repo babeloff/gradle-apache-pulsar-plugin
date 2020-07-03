@@ -79,7 +79,7 @@ gradleEnterprise {
 }
 
 include("greeter")
-//include("apache-pulsar")
+include("apache-pulsar")
 
 
 

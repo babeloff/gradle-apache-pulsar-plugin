@@ -8,7 +8,6 @@ plugins {
     id("maven-publish")
 }
 
-val pulsarVersion:String by project
 val kotlinBuildVersion:String by project
 val log4jVersion:String by project
 val junitVersion:String by project
@@ -42,10 +41,10 @@ configure<GradlePluginDevelopmentExtension> {
 // a.k.a. publishing
 configure<PublishingExtension> {
     this.repositories {
-        maven {
-            url = uri("../../consuming/maven-repo")
-        }
+        mavenLocal()
+//        maven {
+//            url = uri("../../consuming/maven-repo")
+//        }
     }
 }
-
 

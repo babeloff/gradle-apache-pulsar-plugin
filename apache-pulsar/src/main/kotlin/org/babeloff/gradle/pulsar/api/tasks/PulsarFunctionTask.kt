@@ -1,12 +1,8 @@
-package org.example.gradle.api.tasks
+package org.babeloff.gradle.pulsar.api.tasks
 
 import org.apache.log4j.LogManager
-import org.apache.pulsar.common.functions.ConsumerConfig
-//import org.apache.pulsar.common.functions.FunctionConfig
-import org.apache.pulsar.common.functions.Resources
-import org.apache.pulsar.common.functions.WindowConfig
-import org.example.gradle.api.pulsar.PulsarLocalRunnerBuilder
 import org.apache.pulsar.common.functions.FunctionConfig
+import org.apache.pulsar.functions.LocalRunner
 //import org.apache.pulsar.functions.LocalRunner
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
@@ -23,7 +19,7 @@ import org.gradle.internal.os.OperatingSystem
 import org.gradle.work.Incremental
 import org.gradle.work.InputChanges
 
-abstract class PulsarFunctionAppTask : DefaultTask()
+abstract class PulsarFunctionTask : DefaultTask()
 {
     companion object
     {
@@ -74,17 +70,15 @@ abstract class PulsarFunctionAppTask : DefaultTask()
         System.setProperty("PULSAR_HOME", "/opt/services/apache-pulsar/latest")
 
         val cfg = FunctionConfig.builder()
-
-        cfg.runtimeFlags(null)
-
-        cfg.tenant( tenant.get() )
-        cfg.namespace( namespace.get() )
-        cfg.name( functionName.get() )
-        cfg.className( classname.get() )
-        cfg.inputs( inputTopics.get() )
-        cfg.customSerdeInputs( null)
-        cfg.topicsPattern( null)
-        cfg.customSchemaInputs( null)
+        .runtimeFlags(null)
+        .tenant( tenant.get() )
+        .namespace( namespace.get() )
+        .name( functionName.get() )
+        .className( classname.get() )
+        .inputs( inputTopics.get() )
+        .customSerdeInputs( null)
+        .topicsPattern( null)
+        .customSchemaInputs( null)
 
         /**
          * A generalized way of specifying inputs
@@ -122,7 +116,8 @@ abstract class PulsarFunctionAppTask : DefaultTask()
         // Whether the subscriptions the functions created/used should be deleted when the functions is deleted
         cfg.cleanupSubscription(null)
 
-        val localRunner = PulsarLocalRunnerBuilder()
+        val localRunner = LocalRunner
+                .builder()
                 .functionConfig(cfg.build())
                 .build()
         try

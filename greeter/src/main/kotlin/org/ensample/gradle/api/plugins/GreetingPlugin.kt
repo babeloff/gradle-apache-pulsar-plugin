@@ -3,6 +3,7 @@ package org.ensample.gradle.api.plugins
 import org.apache.log4j.LogManager
 import org.ensample.gradle.api.extension.GreetingPluginExtension
 import org.ensample.gradle.api.tasks.GreetingTask
+//import org.ensample.gradle.api.tasks.GreetingToFileTask
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -46,6 +47,7 @@ class GreetingPlugin : Plugin<Project>
                 .create(EXTENSION_NAME, GreetingPluginExtension::class.java)
 
         val miscDir = File("misc/test_resources")
+
         project.tasks.register("goodbye", GreetingTask::class.java) { task ->
             task.group = EVAL_GROUP
 
@@ -57,7 +59,7 @@ class GreetingPlugin : Plugin<Project>
             }
         }
 
-       project.tasks.register("hello", GreetingTask::class.java) { task ->
+        project.tasks.register("hello", GreetingTask::class.java) { task ->
             task.group = EVAL_GROUP
             task.message.set(extension.message)
             task.recipient.set(extension.recipient)
@@ -71,6 +73,17 @@ class GreetingPlugin : Plugin<Project>
                 println("last");
             }
         }
+//
+//        project.tasks.register("tellFile", GreetingToFileTask::class.java) { task ->
+//            task.group = EVAL_GROUP
+//
+//            task.doFirst {
+//                println("first");
+//            }
+//            task.doLast {
+//                println("last");
+//            }
+//        }
     }
 }
 

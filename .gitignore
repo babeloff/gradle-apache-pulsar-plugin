@@ -55,10 +55,6 @@ data_ignore/
 # mike's local big files
 **/my_temp
 
-
-!.idea/
-
-.idea/libraries/
 /data-connect/config/
 /config/
 /data-connect/read-only-config/

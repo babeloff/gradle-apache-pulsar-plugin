@@ -1,17 +1,10 @@
-package org.example.gradle.api.tasks
+package org.babeloff.gradle.pulsar.api.tasks
 
 import org.apache.log4j.LogManager
-import org.apache.log4j.Logger
 import org.gradle.api.DefaultTask
-import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.file.RegularFileProperty
-import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
-import org.gradle.work.Incremental
 import org.gradle.work.InputChanges
 import org.gradle.internal.os.OperatingSystem
-
-import java.io.*
 
 abstract class PulsarDockerTask : DefaultTask()
 {
@@ -31,15 +24,22 @@ abstract class PulsarDockerTask : DefaultTask()
                 if (inputChanges.isIncremental) "Executing incrementally"
                 else "Executing non-incrementally"
         )
-        project.exec {
+        project.exec {exec ->
             when
             {
                 os.isLinux ->
                 {
-                          }
+                    exec.commandLine("c:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+                        "run", // -it
+                        "-p", "6650:6650",
+                        "-p", "8080:8080",
+                        "-v", "\"c:/users/fredr/data:/pulsar/data\".ToLower()",
+                        "apachepulsar/pulsar:2.4.2",
+                        "bin/pulsar", "standalone")
+                }
                 os.isWindows ->
                 {
-                    commandLine("c:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
+                    exec.commandLine("c:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe",
                             "run", // -it
                             "-p", "6650:6650",
                             "-p", "8080:8080",

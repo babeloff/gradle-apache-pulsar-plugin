@@ -1,4 +1,4 @@
-package org.example.gradle.api.tasks
+package org.babeloff.gradle.pulsar.api.tasks
 
 import org.apache.log4j.LogManager
 import org.gradle.api.DefaultTask
@@ -10,7 +10,6 @@ import org.gradle.work.InputChanges
 import org.gradle.internal.os.OperatingSystem
 
 import org.example.gradle.api.pulsar.Orientation
-import org.example.gradle.api.pulsar.Action
 
 abstract class PulsarAdminCreateTask : DefaultTask()
 {
@@ -82,15 +81,15 @@ abstract class PulsarAdminCreateTask : DefaultTask()
             Orientation.SINK -> "--inputs"
             else -> "not a create orientation ${orientation}"
         }
-        project.exec {
+        project.exec { exec ->
             when
             {
                 os.isLinux ->
                 {
-                    workingDir("/opt/services/apache-pulsar/latest")
+                    exec.workingDir("/opt/services/apache-pulsar/latest")
                     if (type.isPresent)
                     {
-                        commandLine("./bin/pulsar-admin",
+                        exec.commandLine("./bin/pulsar-admin",
                                 orientation.get().title, "create",
                                 typeKey, type.get(),
                                 "--name", sourceName.get(),
@@ -101,7 +100,7 @@ abstract class PulsarAdminCreateTask : DefaultTask()
                     }
                     else
                     {
-                        commandLine("./bin/pulsar-admin",
+                        exec.commandLine("./bin/pulsar-admin",
                                 orientation.get().title, "create",
                                 "--classname", classname.get(),
                                 "--archive", archive.get(),
@@ -114,7 +113,30 @@ abstract class PulsarAdminCreateTask : DefaultTask()
                 }
                 os.isWindows ->
                 {
-                    println("TODDO: not implemented")
+                    exec.workingDir("/opt/services/apache-pulsar/latest")
+                    if (type.isPresent)
+                    {
+                        exec.commandLine("./bin/pulsar-admin",
+                                orientation.get().title, "create",
+                                typeKey, type.get(),
+                                "--name", sourceName.get(),
+                                "--tenant", tenant.get(),
+                                "--namespace", namespace.get(),
+                                topicKey, topicName.get(),
+                                configFileKey, configFile.get())
+                    }
+                    else
+                    {
+                        exec.commandLine("./bin/pulsar-admin",
+                                orientation.get().title, "create",
+                                "--classname", classname.get(),
+                                "--archive", archive.get(),
+                                "--name", sourceName.get(),
+                                "--tenant", tenant.get(),
+                                "--namespace", namespace.get(),
+                                topicKey, topicName.get(),
+                                configFileKey, configFile.get())
+                    }
                 }
                 else ->
                 {

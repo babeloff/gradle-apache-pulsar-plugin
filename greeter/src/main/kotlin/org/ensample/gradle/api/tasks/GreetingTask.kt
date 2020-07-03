@@ -7,11 +7,12 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
 import org.gradle.work.Incremental
+import java.io.BufferedReader
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
 
-import java.io.*
-
-open class GreetingTask : DefaultTask()
-{
+open class GreetingTask : DefaultTask() {
     companion object {
         val logger = LogManager.getLogger(GreetingTask::class.java)
     }
@@ -25,12 +26,12 @@ open class GreetingTask : DefaultTask()
     @Incremental
     @PathSensitive(PathSensitivity.NAME_ONLY)
     @InputFile
-    val configFile : RegularFileProperty = project.objects.fileProperty()
+    val configFile: RegularFileProperty = project.objects.fileProperty()
 
     @Incremental
     @PathSensitive(PathSensitivity.NAME_ONLY)
     @InputFile
-    val inFile  : RegularFileProperty = project.objects.fileProperty()
+    val inFile: RegularFileProperty = project.objects.fileProperty()
 
     @get:OutputDirectory
     val outDir: DirectoryProperty = project.objects.directoryProperty()
@@ -38,13 +39,13 @@ open class GreetingTask : DefaultTask()
     @TaskAction
     fun greet() {
         val configFile = configFile.get().asFile
-        logger.info("configuration file = $configFile");
+        logger.info("configuration file = $configFile")
 
         val inFile = inFile.get().asFile
-        logger.info("input file = $inFile");
+        logger.info("input file = $inFile")
 
-        val  outDir = outDir.get().asFile
-        logger.info("output dir = $outDir");
+        val outDir = outDir.get().asFile
+        logger.info("output dir = $outDir")
 
         FileReader(inFile).use { fileReader ->
             BufferedReader(fileReader).use { buffReader ->
@@ -62,7 +63,7 @@ open class GreetingTask : DefaultTask()
             }
         }
 
-        System.out.printf("%s, %s, %s!\n", this.message, this.recipient, this.outDir);
+        System.out.printf("%s, %s, %s!\n", this.message, this.recipient, this.outDir)
     }
 
 }
