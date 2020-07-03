@@ -1,0 +1,43 @@
+package org.ensample.gradle.api.tasks
+
+import org.apache.log4j.LogManager
+import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
+import org.gradle.api.tasks.*
+import org.gradle.work.Incremental
+
+/**
+ * The task is used as follows:
+ *
+ * tasks {
+ *   register<GreetingToFileTask>("greet") {
+ *      destination = { project.extra["greetingFile"]!! }
+ *   }
+ *
+ *   register("sayGreeting") {
+ *     dependsOn("greet")
+ *     doLast {
+ *         println(file(project.extra["greetingFile"]!!).readText())
+ *     }
+ * }
+ *
+ * extra["greetingFile"] = "$buildDir/hello.txt"
+ */
+open class GreetingToFileTask : DefaultTask() {
+
+    var destination: Any? = null
+
+    @OutputFile
+    fun getDestination(): File {
+        return project.file(destination!!)
+    }
+
+    @TaskAction
+    fun greet() {
+        val file = getDestination()
+        file.parentFile.mkdirs()
+        file.writeText("Hello!")
+    }
+}

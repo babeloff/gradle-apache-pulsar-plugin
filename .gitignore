@@ -1,0 +1,65 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
+
+# Ignore Intellij configuration files
+.idea
+.idea/
+
+# Ignore log files
+log
+
+# Ignore __pycache__
+__pycache__/
+
+# Ignore .ipynb_checkpoints/
+.ipynb_checkpoints/
+
+.vscode/
+
+*.pyc
+venv/
+env/
+py_env/
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# Editor-based Rest Client
+.idea/httpRequests
+
+# osm loading csv files
+osm_nodes.csv
+osm_edges.csv
+
+# build files
+out/
+build/
+
+# data folders
+data_ignore/
+
+# vagrant
+.vagrant/
+
+
+# DS
+.DS_Store
+
+# mike's local big files
+**/my_temp
+
+
+!.idea/
+
+.idea/libraries/
+/data-connect/config/
+/config/
+/data-connect/read-only-config/
+/analysis/carta-annual-report-vis/imgs/
